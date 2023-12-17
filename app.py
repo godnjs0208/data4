@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[10]:
+# In[2]:
 
 
 import dash
@@ -16,7 +16,7 @@ from dash.dash_table.Format import Group
 from dash import dash_table
 
 
-c = gpd.read_file('data/연도별.shp')
+c = gpd.read_file('연도별.shp')
 co = c.to_crs(4326)
 
 df_table = pd.DataFrame({
@@ -54,13 +54,7 @@ merge = pd.merge(merge, year3, on='Year', how='outer')
 filtered_rows = merge['Year'] != 1900
 merge1 = merge[filtered_rows]
 
-floor = residential_buildings[residential_buildings['지하층수'] > 0]
-floorr = residential_buildingss[residential_buildingss['지하층수'] > 0]
-floorrr = residential_buildingsss[residential_buildingsss['지하층수'] > 0]
 
-floor1 = floor[['Year']]
-floor2 = floorr[['Year']]
-floor3 = floorrr[['Year']]
 
 df_building = gpd.read_file('data/최최종point.shp')
 gdf_seoul_emd = gpd.read_file('data/서울시경계.shp')
@@ -442,11 +436,11 @@ def update_choropleth_map(selected_year):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8088)
+    app.run_server(debug=True, port=8089)
 
 
-# In[2]:
+# In[ ]:
 
 
-get_ipython().system(' pip install gunicorn')
+
 
