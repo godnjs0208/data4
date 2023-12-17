@@ -16,7 +16,7 @@ from dash.dash_table.Format import Group
 from dash import dash_table
 
 
-c = gpd.read_file('연도별.shp')
+c = gpd.read_file('data/연도별.shp')
 co = c.to_crs(4326)
 
 df_table = pd.DataFrame({
