@@ -1,0 +1,9 @@
+dash==2.14.1
+dash-table==5.0.0
+dash-html-components==2.0.0
+folium==0.12.1
+gunicorn==21.2.0
+pandas==1.3.5
+plotly==5.18.0
+geopandas==0.10.2
+numpy==1.21.6
