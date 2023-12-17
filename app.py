@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[10]:
 
 
 import dash
@@ -12,7 +12,9 @@ import geopandas as gpd
 import folium
 from dash.exceptions import PreventUpdate
 import plotly.express as px
-import dash_table
+from dash.dash_table.Format import Group
+from dash import dash_table
+
 
 c = gpd.read_file('data/연도별.shp')
 co = c.to_crs(4326)
@@ -447,22 +449,4 @@ if __name__ == '__main__':
 
 
 get_ipython().system(' pip install gunicorn')
-
-
-# In[3]:
-
-
-get_ipython().system(' pip freeze')
-
-
-# In[5]:
-
-
-get_ipython().system(' python --version')
-
-
-# In[ ]:
-
-
-
 
