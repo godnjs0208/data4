@@ -27,38 +27,14 @@ df_table = pd.DataFrame({
 
 gdf_river = gpd.read_file('data/LSMD_CONT_UJ201_11_202311.shp')
 
-one = pd.read_csv("data/서울172022-1.csv", encoding='euc-kr')
-onee = pd.read_csv("data/서울172022-2.csv", encoding='euc-kr')
-oneee = pd.read_csv("data/서울172022-3.csv", encoding='euc-kr')
-
-two = pd.read_csv("data/서울1819-1.csv", encoding='euc-kr')
-twoo = pd.read_csv("data/서울1819-2.csv", encoding='euc-kr')
-twooo = pd.read_csv("data/서울1819-3.csv", encoding='euc-kr')
-
-three = pd.read_csv("data/서울22-1.csv", encoding='euc-kr')
-threee = pd.read_csv("data/서울22-2.csv", encoding='euc-kr')
-
-data = pd.concat([one, onee, oneee], axis=0)
-dataa = pd.concat([two, twoo, twooo], axis=0)
-dataaa = pd.concat([three, threee], axis=0)
-
-residential_buildings = data[data['건물용도분류명'] == '주거용']
-residential_buildingss = dataa[dataa['건물용도분류명'] == '주거용']
-residential_buildingsss = dataaa[dataaa['건물용도분류명'] == '주거용']
-year1 = residential_buildings[['Year']]
-year2 = residential_buildingss[['Year']]
-year3 = residential_buildingsss[['Year']]
-
-merge = pd.merge(year1, year2, on='Year', how='outer')
-merge = pd.merge(merge, year3, on='Year', how='outer')
-filtered_rows = merge['Year'] != 1900
-merge1 = merge[filtered_rows]
-
+merge1 = pd.read_csv("data/merge.csv", encoding='utf-8')
+mer = pd.read_csv("data/mer.csv", encoding='utf-8')
 
 
 df_building = gpd.read_file('data/최최종point.shp')
 gdf_seoul_emd = gpd.read_file('data/서울시경계.shp')
 df_building['Year'] = df_building['F_DISA_NM'].str[:4].astype(int)
+
 
 app = dash.Dash(__name__)
 app.title = '서울시 지하주택 침수 현황'
@@ -222,7 +198,7 @@ app.layout = html.Div([
 ])
 
     
-
+#folium 지도 업데이트
 @app.callback(
     Output('map-container', 'children'),
     [Input('year-dropdown', 'value')]
@@ -268,7 +244,8 @@ def update_map(selected_year):
 )
 def update_pie_chart(selected_year):
     merge1_filtered = merge1[merge1['Year'] == selected_year]
-    df_count = len(merge1_filtered)
+    mer_filtered = mer[mer['Year'] == selected_year]
+    df_count = len(mer_filtered)
     total_count = len(merge1) - df_count
     
     ratio = df_count / total_count * 100 if total_count > 0 else 0
@@ -281,7 +258,7 @@ def update_pie_chart(selected_year):
 
     return fig
 
-
+#단계구분도 업데이트
 @app.callback(
     Output('choropleth-map', 'figure'),
     [Input('year-dropdown', 'value')]
@@ -315,6 +292,7 @@ def update_choropleth_map(selected_year):
     )
     return fig
 
+#바차트 업데이트
 @app.callback(
     Output('bar-chart1', 'figure'),  # Update the Output ID to 'bar-chart'
     [Input('year-dropdown', 'value')]
@@ -436,7 +414,7 @@ def update_choropleth_map(selected_year):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8089)
+    app.run_server(debug=True, port=8090)
 
 
 # In[ ]:
